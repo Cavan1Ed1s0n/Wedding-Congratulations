@@ -1,8 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<title id="page-title">Wedding Celebration</title>
+<title>Wedding Celebration</title>
 
 <style>
     body {
@@ -86,20 +87,144 @@
 </style>
 
 <script>
-    // Dynamic wedding title based on URL folder name
-    const path = window.location.pathname.split("/").filter(x => x);
-    const folder = path[path.length - 1] || "";
-
-    function formatName(name) {
-        // Example: "TungLoan" → Tung & Loan
-        const parts = name.match(/[A-Z][a-z]*/g); 
-        if (!parts) return name;
-        return parts.join(" & ");
+    // 1. EXTRACT COUPLE NAME FROM URL
+    function getCoupleNameFromURL() {
+        // Gets the last segment of the path (e.g., TheAnh-LeThanh)
+        const path = window.location.pathname;
+        const segments = path.split('/').filter(segment => segment.length > 0);
+        return segments.length > 0 ? segments[segments.length - 1] : 'DefaultCouple';
+    }
+    
+    const coupleImageFolder = getCoupleNameFromURL();
+    
+    // 2. DEFINE IMAGE PATTERNS BASED ON THE COUPLE'S FOLDER NAME
+    function getImageFilenames(coupleName) {
+        if (coupleName === 'TheAnh-LeThanh') {
+            // Explicit list for TheAnh-LeThanh
+            return [
+                'groom.jpg',
+                'bride.jpg',
+                'couple1.jpg',
+                'couple2.jpg',
+                'happy0.jpg',
+                'happy1.jpg',
+                'happy2.jpg',
+                'happy3.jpg',
+                'happy4.jpg',
+                'happy5.jpg',
+                'happy6.jpg'
+            ];
+        } else if (coupleName === 'DangTung-PhuongLoan') {
+            // Numerical loop for DangTung-PhuongLoan (0.jpg to 31.jpg)
+            const filenames = [];
+            for (let i = 0; i <= 31; i++) {
+                filenames.push(`${i}.jpg`); 
+            }
+            return filenames;
+        } else {
+            // Fallback for any other couple
+            console.warn(`No specific image pattern found for folder: ${coupleName}. Using a default range (0.jpg to 20.jpg).`);
+            const filenames = [];
+            for (let i = 0; i <= 20; i++) {
+                filenames.push(`${i}.jpg`);
+            }
+            return filenames;
+        }
     }
 
-    if (folder) {
-        const prettyName = formatName(folder);
-        document.title = `${prettyName} — Wedding Celebration`;
+    // 3. DYNAMICALLY CREATE SLIDES AND START SLIDESHOW
+    function createSlideshow() {
+        const slideshowContainer = document.getElementById('slideshow-container');
+        const imageFilenames = getImageFilenames(coupleImageFolder);
+
+        if (imageFilenames.length === 0) {
+            slideshowContainer.innerHTML = `<p style="text-align:center; color:red; padding:50px;">
+                No images to display for this wedding folder.
+            </p>`;
+            return;
+        }
+
+        imageFilenames.forEach((filename, index) => {
+            // Constructs the final path: e.g., "TheAnh-LeThanh/groom.jpg"
+            const imagePath = `${coupleImageFolder}/${filename}`;
+            
+            const slideDiv = document.createElement('div');
+            slideDiv.classList.add('slide');
+            
+            // Set the first slide as active
+            if (index === 0) {
+                slideDiv.classList.add('active');
+            }
+
+            const imgTag = document.createElement('img');
+            imgTag.src = imagePath;
+            imgTag.alt = 'Wedding Photo ' + filename;
+            
+            slideDiv.appendChild(imgTag);
+            slideshowContainer.appendChild(slideDiv);
+        });
+
+        // 4. AUTOMATIC SLIDESHOW LOGIC
+        let currentIndex = 0;
+        const slides = slideshowContainer.querySelectorAll(".slide");
+
+        function showNextSlide() {
+            slides[currentIndex].classList.remove("active");
+            currentIndex = (currentIndex + 1) % slides.length;
+            slides[currentIndex].classList.add("active");
+        }
+
+        // Only start interval if slides exist
+        if (slides.length > 0) {
+            setInterval(showNextSlide, 3500);
+        }
     }
+    
+    // Start the process when the entire document structure is loaded
+    document.addEventListener('DOMContentLoaded', createSlideshow);
 </script>
+
 </head>
+<body>
+
+<audio id="bgm" loop>
+    <source src="wedding.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // Plays audio after first user tap/click
+    document.addEventListener('click', function () {
+        document.getElementById('bgm').play().catch(error => {
+            console.log('Audio playback failed:', error);
+        });
+    }, { once: true });
+</script>
+
+<script>
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 600);
+</script>
+
+<div class="header">
+    <div class="title">💍 Happy Wedding Celebration 💐</div>
+    <div class="subtitle">Wishing you a lifetime filled with love, laughter, and happiness.</div>
+</div>
+
+<div class="slideshow-container" id="slideshow-container">
+    </div>
+
+<div class="footer">
+    Made with ❤️ to celebrate a beautiful union.
+</div>
+
+</body>
+</html>
