@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Wedding Celebration</title>
+
+<title id="page-title">Wedding Celebration</title>
 
 <style>
     body {
@@ -85,98 +84,22 @@
         padding-bottom: 40px;
     }
 </style>
+
+<script>
+    // Dynamic wedding title based on URL folder name
+    const path = window.location.pathname.split("/").filter(x => x);
+    const folder = path[path.length - 1] || "";
+
+    function formatName(name) {
+        // Example: "TungLoan" → Tung & Loan
+        const parts = name.match(/[A-Z][a-z]*/g); 
+        if (!parts) return name;
+        return parts.join(" & ");
+    }
+
+    if (folder) {
+        const prettyName = formatName(folder);
+        document.title = `${prettyName} — Wedding Celebration`;
+    }
+</script>
 </head>
-<body>
-
-<!-- Background Music -->
-<audio id="bgm" loop>
-    <source src="wedding.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-    // Required for autoplay on mobile – plays after first tap
-    document.addEventListener('click', function () {
-        document.getElementById('bgm').play();
-    }, { once: true });
-</script>
-
-<!-- Floating Hearts Generator -->
-<script>
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.textContent = "❤️";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 6000);
-    }
-    setInterval(createHeart, 600);
-</script>
-
-<div class="header">
-    <div class="title">💍 Happy Wedding Celebration 💐</div>
-    <div class="subtitle">Wishing you a lifetime filled with love, laughter, and happiness.</div>
-</div>
-
-<!-- SLIDESHOW -->
-<div class="slideshow-container">
-    <div class="slide active">
-        <img src="groom.jpg">
-    </div>
-
-    <div class="slide">
-        <img src="bride.jpg">
-    </div>
-
-    <div class="slide">
-        <img src="couple1.jpg">
-    </div>
-
-    <div class="slide">
-        <img src="couple2.jpg">
-    </div>
-    <div class="slide">
-        <img src="happy0.jpg">
-    </div>
-    <div class="slide">
-        <img src="happy1.jpg">
-    </div>
-    <div class="slide">
-        <img src="happy2.jpg">
-    </div>
-    <div class="slide">
-        <img src="happy3.jpg">
-    </div>
-    <div class="slide">
-        <img src="happy4.jpg">
-    </div>
-    <div class="slide">
-        <img src="happy5.jpg">
-    </div>
-    <div class="slide">
-        <img src="happy5.jpg">
-    </div>
-</div>
-
-<!-- Automatic Slideshow -->
-<script>
-    let currentIndex = 0;
-    const slides = document.querySelectorAll(".slide");
-
-    function showNextSlide() {
-        slides[currentIndex].classList.remove("active");
-        currentIndex = (currentIndex + 1) % slides.length;
-        slides[currentIndex].classList.add("active");
-    }
-
-    setInterval(showNextSlide, 3500);
-</script>
-
-<div class="footer">
-    Made with ❤️ to celebrate a beautiful union.
-</div>
-
-</body>
-</html>
