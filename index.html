@@ -115,10 +115,11 @@
                 'happy6.jpg'
             ];
         } else if (coupleName === 'DangTung-PhuongLoan') {
-            // Numerical loop for DangTung-PhuongLoan (0.jpg to 31.jpg)
+            // Numerical loop for DangTung-PhuongLoan (0 (0).jpg to 0 (31).jpg)
             const filenames = [];
             for (let i = 0; i <= 31; i++) {
-                filenames.push(`${i}.jpg`); 
+                // Generates filenames like: 0 (0).jpg, 0 (1).jpg, etc.
+                filenames.push(`0 (${i}).jpg`); 
             }
             return filenames;
         } else {
@@ -145,7 +146,7 @@
         }
 
         imageFilenames.forEach((filename, index) => {
-            // Constructs the final path: e.g., "TheAnh-LeThanh/groom.jpg"
+            // Constructs the final path: e.g., "DangTung-PhuongLoan/0 (5).jpg"
             const imagePath = `${coupleImageFolder}/${filename}`;
             
             const slideDiv = document.createElement('div');
