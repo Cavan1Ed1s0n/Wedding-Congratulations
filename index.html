@@ -4,7 +4,12 @@
     <source src="wedding.mp3" type="audio/mpeg">
     Your browser does not support audio.
 </audio>
-
+<script>
+    // Mobile unlock
+    document.addEventListener('click', function () {
+        document.getElementById('bgm').play();
+    }, { once: true });
+</script>
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -99,7 +104,6 @@
             <img src="groom.jpg" alt="Groom">
 
             <div class="placeholder">Groom Image Here</div>
-            <div class="instruction">📌 Put file: <b>groom.jpg</b></div>
         </div>
 
         <!-- BRIDE IMAGE CARD -->
@@ -108,7 +112,6 @@
             <img src="bride.jpg" alt="Bride">
 
             <div class="placeholder">Bride Image Here</div>
-            <div class="instruction">📌 Put file: <b>bride.jpg</b></div>
         </div>
 
     </div>
