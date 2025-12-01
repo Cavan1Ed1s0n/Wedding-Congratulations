@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wedding Celebration - Dang Tùng ❤️ Phương Loan</title>
+
+<style>
+    body { margin: 0; padding: 0; font-family: "Poppins", sans-serif;
+        background: linear-gradient(to bottom, #fff5f5, #ffe6e6); overflow-x: hidden; }
+
+    .heart { position: fixed; bottom: -20px; color: #ff6b81; font-size: 22px;
+        animation: floatUp 6s linear infinite; opacity: 0.7; }
+
+    @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-700px) scale(1.8); opacity: 0; } }
+
+    .header { text-align: center; padding: 40px 20px; }
+    .title { font-size: 42px; font-weight: 700; color: #d62828; }
+    .subtitle { font-size: 20px; color: #4f4f4f; margin-top: 10px; }
+
+    .slideshow-container {
+        width: 80%; max-width: 480px; height: 540px; margin: 40px auto;
+        border-radius: 25px; background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        overflow: hidden; position: relative;
+    }
+
+    .slide { width: 100%; height: 100%; position: absolute; opacity: 0;
+        transition: opacity 1.5s ease-in-out; }
+
+    .slide.active { opacity: 1; }
+    .slide img { width: 100%; height: 100%; object-fit: cover; }
+
+    .footer { margin-top: 50px; text-align: center; font-size: 18px; color: #333; padding-bottom: 40px; }
+</style>
+</head>
+
+<body>
+
+<audio id="bgm" loop>
+    <source src="../wedding.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+document.addEventListener('click', () => {
+    document.getElementById('bgm').play();
+}, { once: true });
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 600);
+</script>
+
+<div class="header">
+    <div class="title">💍 Happy Wedding Celebration 💐</div>
+    <div class="subtitle">Đăng Tùng ❤️ Phương Loan</div>
+</div>
+
+<div class="slideshow-container" id="slideshow"></div>
+
+<script>
+const images = Array.from({ length: 32 }, (_, i) => `0 (${i}).jpg`);
+const slideshow = document.getElementById("slideshow");
+
+images.forEach((img, index) => {
+    const slide = document.createElement("div");
+    slide.classList.add("slide");
+    if (index === 0) slide.classList.add("active");
+    slide.innerHTML = `<img src="${img}" />`;
+    slideshow.appendChild(slide);
+});
+
+let currentIndex = 0;
+const slides = () => document.querySelectorAll(".slide");
+
+setInterval(() => {
+    const s = slides();
+    s[currentIndex].classList.remove("active");
+    currentIndex = (currentIndex + 1) % s.length;
+    s[currentIndex].classList.add("active");
+}, 3500);
+</script>
+
+<div class="footer">
+    Made with ❤️ to celebrate a beautiful union.
+</div>
+
+</body>
+</html>
